@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+        
+            padding: 10px;
+            background-color: #f8f8f8;
+        }
+        .container {
+            max-width: 90%;
+            width: 100%;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            min-width: 500px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        @media (max-width: 600px) {
+            th, td {
+                font-size: 12px;
+                padding: 8px;
+            }
+            input, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+            button {
+                padding: 12px;
+            }
+        }
+        h2{
+            text-align: center;
+            font-family:mono ;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 >រកតម្លៃdiscount (From VISAL Thorn)</h2>
+        <input type="text" id="productName" placeholder="បញ្ចូលទំនិញ.....">
+        <input type="number" id="orderQuantity" placeholder="បញ្ចូលចំនួនទំនិញ.....">
+        <input type="number" id="productPrice" placeholder="បញ្ចូលតម្លៃទំនិញ.....">
+        <input type="number" id="productDiscount" placeholder="Discount (%)">
+        <button onclick="addProduct()">បង្ហាញតម្លៃ</button>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ឈ្មោះ</th>
+                        <th>ចំនួន</th>
+                        <th>តម្លៃ ($,Rail)</th>
+                        <th>Discount (%)</th>
+                        <th>សរុប ($,Rail)</th>
+                    </tr>
+                </thead>
+                <tbody id="productList"></tbody>
+            </table>
+        </div>
+    </div>
+    
+ 
+    <script>
+        function addProduct() {
+            let name = document.getElementById("productName").value;
+            let quantity = parseInt(document.getElementById("orderQuantity").value);
+            let price = parseFloat(document.getElementById("productPrice").value);
+            let discount = parseFloat(document.getElementById("productDiscount").value);
+            
+            if (name === "" || isNaN(quantity) || isNaN(price) || isNaN(discount) || quantity <= 0) {
+                alert("Please enter valid details");
+                return;
+            }
+            
+            // Calculate total price before discount
+            let totalPrice = quantity * price;
+            // Apply discount
+            let discountAmount = totalPrice * (discount / 100);
+            let finalPrice = totalPrice - discountAmount;
+            
+            let table = document.getElementById("productList");
+            let row = table.insertRow();
+            row.innerHTML = `<td>${name}</td><td>${quantity}</td><td>${price.toFixed(2)}</td><td>${discount.toFixed(2)}</td><td>${finalPrice.toFixed(2)}</td>`;
+            
+            document.getElementById("productName").value = "";
+            document.getElementById("orderQuantity").value = "";
+            document.getElementById("productPrice").value = "";
+            document.getElementById("productDiscount").value = "";
+        }
+    </script>
+</body>
+</html>
